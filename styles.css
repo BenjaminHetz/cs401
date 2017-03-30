@@ -126,3 +126,7 @@ p{
 	padding-top: 10px;
 	background-color: #00AADD;
 }
+.errorMessage {
+    color:red;
+    font-weight:bold;
+}

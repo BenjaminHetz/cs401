@@ -102,8 +102,8 @@
 		}
 		private function getTimeLine( $level )
 		{
-			//$time = date( $this->DateFormat );
-      $time = "now";
+			$time = date( $this->DateFormat );
+			//$time = "now";
 			switch( $level )
 			{
 				case KLogger::INFO:

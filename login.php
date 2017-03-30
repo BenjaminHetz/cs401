@@ -1,21 +1,21 @@
 <?php
-	include_once('header.html');
+session_start();
+include_once('header.php');
 ?>
 
 <div id="oldUser" class="loginDiv">
 	Sign in
 	<div>
-		<!--<form action="handler.php" method="POST">-->
-		<form action="myBooks.php" method="GET">
+		<form action="loginHandler.php" method="POST">
 			<div>
 				<label>Username</label>
-				<input type="text" name="username">
+				<input type="text" name="username" value=<?php echo $_SESSION['input']['username']?>>
 			</div>
 			<div>
 				<label>Password</label>
 				<input type="password" name="password">
 			</div>
-				<input type="submit">
+				<input type="submit" value="Submit" name="login">
 		</form>
 	</div>
 </div>
@@ -23,22 +23,22 @@
 <div id="newUser" class="loginDiv">
 	Not a Member? Sign up Here
 	<div>
-		<form>
+		<form action="loginHandler.php" method="POST">
 			<div>
 				<label>First Name</label>
-				<input type="text" name="fName">
+				<input type="text" name="fName" value=<?php echo $_SESSION['input']['fName']?>>
 			</div>
 			<div>
 				<label>Last Name</label>
-				<input type="text" name="lName">
+				<input type="text" name="lName" value=<?php echo $_SESSION['input']['lName']?>>
 			</div>
 			<div>
 				<label>eMail</label>
-				<input type="text" name="email">
+				<input type="text" name="email" value=<?php echo $_SESSION['input']['email']?>>
 			</div>
 			<div>
 				<label>Username</label>
-				<input type="text" name="newusername">
+				<input type="text" name="newusername" value=<?php echo $_SESSION['input']['newusername']?>>
 			</div>
 			<div>
 				<label>Password</label>
@@ -48,9 +48,15 @@
 				<label>Confirm Password</label>
 				<input type="password" name="confirmpass">
 			</div>
-				<input type="submit">
+				<input type="submit" value="Submit" name="create">
 		</form>
+	 <?php
+    foreach($_SESSION['message'] as $message) {
+        echo "<p class=errorMessage>" . $message . "</p>";
+    }
+?>
 	</div>
 </div>
 <?php
 	include_once('footer.html');
+?>

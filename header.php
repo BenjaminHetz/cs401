@@ -1,6 +1,8 @@
 <?php
-  session_start();
+    session_start();
+if (isset($_
 ?>
+
 <html>
 	<head>
 		<title>Book-Collectors</title>
@@ -14,9 +16,10 @@
 			</span>
 			<span id="title"><a href="index.php">Book~Collectors</a></span>
 			<span id="loginSpan">
-			  <a id="signin"
-			     <?php
-			       if href="login.php">Sign In/Sign Up</a>
+			  <a id="signin" href="login.php">Sign In/Sign Up</a>
+			      <?php
+	  if (isset($_SESSION['user']))
+	              ?>
+			      <!-- href="login.php">Sign In/Sign Up</a> --!>
 			</span>
-		</div>
-		
+	    </div>	
