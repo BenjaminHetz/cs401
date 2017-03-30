@@ -50,8 +50,7 @@ include_once('header.php');
 			</div>
 				<input type="submit" value="Submit" name="create">
 		</form>
-	#Showing error messages under the create user box
-	#Clear it out after it has been shown so it doesn't persist
+	<!--Showing error messages under the create user box Clear it out after it has been shown so it does not persist--!>
 	<?php
     foreach($_SESSION['message'] as $message) {
         echo "<p class=errorMessage>" . $message . "</p>";

@@ -1,6 +1,5 @@
 <?php
     session_start();
-if (isset($_
 ?>
 
 <html>
@@ -16,10 +15,12 @@ if (isset($_
 			</span>
 			<span id="title"><a href="index.php">Book~Collectors</a></span>
 			<span id="loginSpan">
-			  <a id="signin" href="login.php">Sign In/Sign Up</a>
-			      <?php
-	  if (isset($_SESSION['user']))
-	              ?>
-			      <!-- href="login.php">Sign In/Sign Up</a> --!>
+	<?php
+	if (isset($_SESSION['user'])) {
+		echo '<a id="signin" href="logout.php">Sign out</a>';
+	} else {
+		echo '<a id="signin" href="login.php">Sign In/Sign Up</a>';
+	}
+	?>
 			</span>
 	    </div>	

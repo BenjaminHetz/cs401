@@ -1,6 +1,4 @@
 <?php
-
-session_start();
 require_once 'KLogger.php';
 
 class DAO {
@@ -28,18 +26,19 @@ class DAO {
 	}
 
 	public function verifyLogin ($username, $password) {
-		$this->log->LogDebug("Verifying login information");
 		$conn = $this->getConnection();
-		$loginQuery = "select username, password, userid from user where username=:username";
+		$this->log->LogDebug("Verifying login information");
+		$loginQuery = "select username, password, userid from user where username=:username;";
 		$q = $conn->prepare($loginQuery);
 		$q->bindValue(":username", $username);
 		$q->execute();
 		$data = $q->fetch(PDO::Fetch_ASSOC);
 		$passfromDB = $data['password'];
-		$password = password_hash($password, PASSWORD_DEFAULT);
+		$this->log->LogDebug($passfromDB);
+		#$password = password_hash($password, PASSWORD_DEFAULT);
 		if ($password === $passfromDB) {
 		        $this->log->LogDebug("Passwords match");
-			$_SESSION['userid'] = $data['userid];
+				$_SESSION['userid'] = $data['userid'];
 		}
 	}
 
