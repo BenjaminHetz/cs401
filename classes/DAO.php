@@ -28,10 +28,10 @@ class DAO {
 	public function verifyLogin ($username, $password) {
 		$conn = $this->getConnection();
 		$this->log->LogDebug("Verifying login information");
-		$loginQuery = "SELECT username, password, userid FROM user WHERE username = :username";
+		$loginQuery = "SELECT username, password, userid FROM user WHERE username = benhetz";
 		$q = $conn->prepare($loginQuery);
 		$this->log->LogDebug("Query was prepared");
-		if ($q->execute(array(':username' => $username))) {
+		if ($q->execute()) {
 		   $this->log->LogDebug("Statement was properly executed");
 		} else {
 		   exit();
