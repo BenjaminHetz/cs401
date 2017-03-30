@@ -30,10 +30,17 @@ class DAO {
 	public function verifyLogin ($username, $password) {
 		$this->log->LogDebug("Verifying login information");
 		$conn = $this->getConnection();
-		$loginQuery = "select username, password from user where username=:username";
+		$loginQuery = "select username, password, userid from user where username=:username";
 		$q = $conn->prepare($loginQuery);
-		$q->bindParam(":username", $username);
+		$q->bindValue(":username", $username);
 		$q->execute();
+		$data = $q->fetch(PDO::Fetch_ASSOC);
+		$passfromDB = $data['password'];
+		$password = password_hash($password, PASSWORD_DEFAULT);
+		if ($password === $passfromDB) {
+		        $this->log->LogDebug("Passwords match");
+			$_SESSION['userid'] = $data['userid];
+		}
 	}
 
 	public function createUser ($fName, $lName, $email, $newUsername, $newpassword) {
@@ -71,31 +78,37 @@ class DAO {
 		$conn = $this->getConnection();
 		$query = "select * from user where username=:username;";
 		$q = $conn->prepare($loginQuery);
-		$q->bindParam(":username", $username);
+		$q->bindValue(":username", $username);
 		$q->execute();
 		$returned = $q->fetch();
 		unset($_SESSION['message']);
-		if (!($returned == null)) {
+		if ($returned) {
+		   	$this->log->LogDebug("We received data back so user already exists");
 			$_SESSION['createUnameState'] = 'bad';
 			$_SESSION['message'][0] = "Username already in use";
 			unset($_SESSION['input']['newusername']);
 		}
 		if (!($password === $confirmPass)) {
+		        $this->log->LogDebug("Passwords did not match");
 			$_SESSION['createPassState'] = 'bad';
 			$_SESSION['message'][1] = "Passwords do not match";
 		}
 		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+		        $this->log->LogDebug("Email is invalid");
 			$_SESSION['createEmailState'] = 'bad';
 			$_SESSION['message'][2] = "Invalid Email";
 			unset($_SESSION['input']['email']);
 		}
-		if ($returned == null) {
+		if (!$returned) {
+		        $this->log->LogDebug("We got no results back, so user doesn't exist");
 			unset($_SESSION['createUnameState']);
 		}
 		if ($password === $confirmPass) {
+		        $this->log->LogDebug("Passwords match confirmed");
 			unset($_SESSION['createPassState']);
 		}
 		if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+		        $this->log->LogDebug("Email confirmed valid");
 			unset($_SESSION['createEmailState']);
 		}
 	}	    
