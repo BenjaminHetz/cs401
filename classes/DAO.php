@@ -28,9 +28,10 @@ class DAO {
 	public function verifyLogin ($username, $password) {
 		$conn = $this->getConnection();
 		$this->log->LogDebug("Verifying login information");
-		$loginQuery = "select username, password, userid from user where username=:username;";
+		$loginQuery = "SELECT username, password, userid FROM user WHERE username = :username";
 		$q = $conn->prepare($loginQuery);
-		$q->bindValue(":username", $username);
+		$this->log->LogDebug("Query was prepared");
+		$q->bindValue(':username', $username);
 		$q->execute();
 		$data = $q->fetch(PDO::Fetch_ASSOC);
 		$passfromDB = $data['password'];
