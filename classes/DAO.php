@@ -31,8 +31,11 @@ class DAO {
 		$loginQuery = "SELECT username, password, userid FROM user WHERE username = :username";
 		$q = $conn->prepare($loginQuery);
 		$this->log->LogDebug("Query was prepared");
-		$q->bindValue(':username', $username);
-		$q->execute();
+		if ($q->execute(array(':username' => $username))) {
+		   $this->log->LogDebug("Statement was properly executed");
+		} else {
+		   exit();
+		}
 		$data = $q->fetch(PDO::Fetch_ASSOC);
 		$passfromDB = $data['password'];
 		$this->log->LogDebug($passfromDB);
