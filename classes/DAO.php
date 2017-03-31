@@ -34,7 +34,8 @@ class DAO {
 		    $this->log->LogDebug("Statement was properly executed");
 		    $query->debugDumpParams();
 		} else {
-		   exit();
+		    $this->log->LogDebug("Failed to fetch credentials for {$username}");
+		    exit();
 		}
 		$data = $query->fetch();
 		$passfromDB = $data['password'];
@@ -42,7 +43,8 @@ class DAO {
 		#$password = password_hash($password, PASSWORD_DEFAULT);
 		if ($password === $passfromDB) {
 		        $this->log->LogDebug("Passwords match");
-				$_SESSION['userid'] = $data['userid'];
+			$_SESSION['userid'] = $data['userid'];
+			header("Location:index.php");
 		}
 	}
 
