@@ -28,15 +28,6 @@ class DAO {
 		$conn = $this->getConnection();
 		$this->log->LogDebug("Verifying login information");
 		$query = $conn->prepare("SELECT username, password, userid FROM user WHERE username = :username");
-		$query->execute(array(':username' => $username));
-		$this->log->LogDebug("Query was prepared");
-		if ($query->execute()) {
-		    $this->log->LogDebug("Statement was properly executed");
-		    $query->debugDumpParams();
-		} else {
-		    $this->log->LogDebug("Failed to fetch credentials for {$username}");
-		    exit();
-		}
 		$data = $query->fetch();
 		$passfromDB = $data['password'];
 		$this->log->LogDebug($passfromDB);
@@ -45,6 +36,7 @@ class DAO {
 		        $this->log->LogDebug("Passwords match");
 			$_SESSION['userid'] = $data['userid'];
 			header("Location:index.php");
+			exit();
 		}
 	}
 
@@ -54,16 +46,16 @@ class DAO {
 		$newpassword = password_hash($newpassword, PASSWORD_DEFAULT);
 		$q = $conn->prepare('insert into user (fName, lName, username, password, email, access) VALUES (:fName, :lName, :email, :newUsername, :newpassword, 0)');
 		$q->execute(array(':fName' => $fName, ':lName' => $lName, ':newUsername' => $newUsername, ':newpassword' => $newpassword));
+		$this->log->LogDebug("Successfully inserted user into table");
 		header("Location:index.php");
-		
+		exit();
 	}
 
 	public function verifyNewUserCreds($username, $email, $password, $confirmPass) {
 		$conn = $this->getConnection();
 		$query = "select * from user where username=:username;";
-		$q = $conn->prepare($loginQuery);
-		$q->bindValue(":username", $username);
-		$q->execute();
+		$q = $conn->prepare('select * from user where username = :username');
+		$q->execute(array(':username' => $username));
 		$returned = $q->fetch();
 		unset($_SESSION['message']);
 		if ($returned) {

@@ -27,8 +27,5 @@ if (isset($_POST['create'])) {
 		exit;
 	} else {
 		$access->createUser($fName, $lName, $email, $newusername, $password);
-		echo "<pre>";
-		print_r($_POST);
-		echo "</pre>";
 	}
 }
