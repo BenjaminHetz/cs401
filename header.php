@@ -16,7 +16,7 @@
 			<span id="title"><a href="index.php">Book~Collectors</a></span>
 			<span id="loginSpan">
 	<?php
-	if (isset($_SESSION['user'])) {
+	if (isset($_SESSION['userid'])) {
 		echo '<a id="signin" href="logout.php">Sign out</a>';
 	} else {
 		echo '<a id="signin" href="login.php">Sign In/Sign Up</a>';

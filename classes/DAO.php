@@ -52,30 +52,9 @@ class DAO {
 		$this->log->LogDebug("Creating User");
 		$conn = $this->getConnection();
 		$newpassword = password_hash($newpassword, PASSWORD_DEFAULT);
-		$createQuery = 'insert into user (fName, lName, username, password, email, access) VALUES (:fName, :lName, :email, :newUsername, :newpassword, 0);';
-		$q = $conn->prepare($createQuery);
-		$_POST['QUERY'] = $q;
-		if ($q->bindValue(':fName', $fName, PDO::PARAM_STR)) {
-			$this->log->LogDebug("Bound fName");
-		}
-		if ($q->bindValue(':lName', $lName, PDO::PARAM_STR)) {
-			$this->log->LogDebug("Bound lName");
-		}
-		if ($q->bindValue(':email', $email, PDO::PARAM_STR)) {
-			$this->log->LogDebug("Bound email");
-		}
-		if ($q->bindValue(':newUsername', $newUsername, PDO::PARAM_STR)) {
-			$this->log->LogDebug("Bound UserName");
-		}
-		if ($q->bindValue(':newpassword', $newpassword, PDO::PARAM_STR)) {
-			$this->log->LogDebug("Bound password");
-		}
-		echo '<pre>';
-		$q->debugDumpParams();
-		echo '</pre>';
-		#if (!($q->execute())) {
-		#	$this->log->LogDebug("Damn didn't work");
-		#}
+		$q = $conn->prepare('insert into user (fName, lName, username, password, email, access) VALUES (:fName, :lName, :email, :newUsername, :newpassword, 0)';
+		$q->execute(array(':fName' => $fName, ':lName' => $lName, ':newUsername' => $newUsername, ':newpassword' => $newpassword));
+		header("Location:index.php");
 		
 	}
 
