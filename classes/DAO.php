@@ -15,8 +15,7 @@ class DAO {
 	public function getConnection() {
 		$this->log->LogDebug("Attempting MySQL connection . . .");
 	    try {
-			$conn = new PDO("mysql:host={$this->host};dbname={$this->db}", $this->user,
-							$this->password);
+			$conn = new PDO("mysql:host={$this->host};dbname={$this->db}", $this->user, $this->password);
 		} catch (Exception $e) {
 			$this->log->LogFatal($e);
 			exit;
@@ -37,7 +36,7 @@ class DAO {
 		} else {
 		   exit();
 		}
-		$data = $query->fetch(PDO::Fetch_ASSOC);
+		$data = $query->fetch();
 		$passfromDB = $data['password'];
 		$this->log->LogDebug($passfromDB);
 		#$password = password_hash($password, PASSWORD_DEFAULT);
