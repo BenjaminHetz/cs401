@@ -31,10 +31,10 @@ class DAO {
 		$data = $query->fetch();
 		$passfromDB = $data['password'];
 		$this->log->LogDebug($passfromDB);
-		#$password = password_hash($password, PASSWORD_DEFAULT);
+		$password = password_hash($password, PASSWORD_DEFAULT);
 		if ($password === $passfromDB) {
 		        $this->log->LogDebug("Passwords match");
-			$_SESSION['userid'] = $data['userid'];
+			$_SESSION['username'] = $data['username'];
 			header("Location:index.php");
 			exit();
 		}
@@ -47,6 +47,7 @@ class DAO {
 		$q = $conn->prepare('insert into user (fName, lName, username, password, email, access) VALUES (:fName, :lName, :newUsername, :newpassword, :email, 0)');
 		$q->execute(array(':fName' => $fName, ':lName' => $lName, ':newUsername' => $newUsername, ':newpassword' => $newpassword, ':email' => $email));
 		$this->log->LogDebug("Successfully inserted user into table");
+		$_SESSION['username'] = $newUsername;
 		header("Location:index.php");
 		exit();
 	}
