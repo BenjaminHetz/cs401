@@ -27,5 +27,8 @@ if (isset($_POST['create'])) {
 		exit;
 	} else {
 		$access->createUser($fName, $lName, $email, $newusername, $password);
+		$_SESSION['username'] = $newusername;
+		header("Location:index.php");
+		exit;
 	}
 }
