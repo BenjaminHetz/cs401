@@ -27,14 +27,14 @@ class DAO {
 	public function verifyLogin ($username, $password) {
 		$conn = $this->getConnection();
 		$this->log->LogDebug("Verifying login information");
-		$query = $conn->prepare("SELECT username, password, userid FROM user WHERE username = :username");
+		$query = $conn->prepare("SELECT username, password FROM user WHERE username = :username");
+		$query->execute(array(':username' => $username));
 		$data = $query->fetch();
-		$this->log->LogDebug($data);
-		$passfromDB = $data['password'];
-		$this->log->LogDebug($passfromDB);
-		$password = password_hash($password, PASSWORD_DEFAULT);
-		if ($password === $passfromDB) {
-		        $this->log->LogDebug("Passwords match");
+		$hash = $data['password'];
+		$this->log->LogDebug($hash);
+		$this->log->LogDebug($password);
+		if (password_verify($password, $hash)) {
+		    $this->log->LogDebug("Passwords match");
 			$_SESSION['username'] = $data['username'];
 			header("Location:index.php");
 			exit();
@@ -47,6 +47,7 @@ class DAO {
 		$newpassword = password_hash($newpassword, PASSWORD_DEFAULT);
 		$q = $conn->prepare('insert into user (fName, lName, username, password, email, access) VALUES (:fName, :lName, :newUsername, :newpassword, :email, 0)');
 		$q->execute(array(':fName' => $fName, ':lName' => $lName, ':newUsername' => $newUsername, ':newpassword' => $newpassword, ':email' => $email));
+		$this->log->LogDebug("fName = " . $fName . "lName = " . $lName . "Username = " . $newUsername . "Password = " . $newpassword . "Email = " . $email);
 		$this->log->LogDebug("Successfully inserted user into table");
 	}
 
