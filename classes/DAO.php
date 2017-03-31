@@ -52,7 +52,7 @@ class DAO {
 		$this->log->LogDebug("Creating User");
 		$conn = $this->getConnection();
 		$newpassword = password_hash($newpassword, PASSWORD_DEFAULT);
-		$q = $conn->prepare('insert into user (fName, lName, username, password, email, access) VALUES (:fName, :lName, :email, :newUsername, :newpassword, 0)';
+		$q = $conn->prepare('insert into user (fName, lName, username, password, email, access) VALUES (:fName, :lName, :email, :newUsername, :newpassword, 0)');
 		$q->execute(array(':fName' => $fName, ':lName' => $lName, ':newUsername' => $newUsername, ':newpassword' => $newpassword));
 		header("Location:index.php");
 		
