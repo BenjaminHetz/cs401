@@ -44,8 +44,8 @@ class DAO {
 		$this->log->LogDebug("Creating User");
 		$conn = $this->getConnection();
 		$newpassword = password_hash($newpassword, PASSWORD_DEFAULT);
-		$q = $conn->prepare('insert into user (fName, lName, username, password, email, access) VALUES (:fName, :lName, :email, :newUsername, :newpassword, 0)');
-		$q->execute(array(':fName' => $fName, ':lName' => $lName, ':newUsername' => $newUsername, ':newpassword' => $newpassword));
+		$q = $conn->prepare('insert into user (fName, lName, username, password, email, access) VALUES (:fName, :lName, :newUsername, :newpassword, :email, 0)');
+		$q->execute(array(':fName' => $fName, ':lName' => $lName, ':newUsername' => $newUsername, ':newpassword' => $newpassword, ':email' => $email));
 		$this->log->LogDebug("Successfully inserted user into table");
 		header("Location:index.php");
 		exit();
