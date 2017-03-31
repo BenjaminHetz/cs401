@@ -28,16 +28,16 @@ class DAO {
 	public function verifyLogin ($username, $password) {
 		$conn = $this->getConnection();
 		$this->log->LogDebug("Verifying login information");
-		$loginQuery = 'SELECT username, password, userid FROM user WHERE username = benhetz';
-		$q = $conn->prepare($loginQuery);
+		$query = $conn->prepare("SELECT username, password, userid FROM user WHERE username = :username");
+		$query->execute(array(':username' => $username));
 		$this->log->LogDebug("Query was prepared");
-		if ($q->execute()) {
-		   $this->log->LogDebug("Statement was properly executed");
-		   $q->debugDumpParams();
+		if ($query->execute()) {
+		    $this->log->LogDebug("Statement was properly executed");
+		    $query->debugDumpParams();
 		} else {
 		   exit();
 		}
-		$data = $q->fetch(PDO::Fetch_ASSOC);
+		$data = $query->fetch(PDO::Fetch_ASSOC);
 		$passfromDB = $data['password'];
 		$this->log->LogDebug($passfromDB);
 		#$password = password_hash($password, PASSWORD_DEFAULT);
