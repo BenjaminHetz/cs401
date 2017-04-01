@@ -22,7 +22,10 @@ if (isset($_POST['create'])) {
 	$lName    = $_POST['lName'];
 	$email    = $_POST['email'];
 	$confirmpass = $_POST['confirmpass'];
-	echo print_r("Create User");
+	$_SESSION['input']['newusername'] = $username;
+	$_SESSION['input']['fName'] = $fName;
+	$_SESSION['input']['lName'] = $lName;
+	$_SESSION['input']['email'] = $email;
 	$access->verifynewUserCreds($username, $email, $password, $confirmpass);
 	if (isset($_SESSION['createUnameState']) || isset($_SESSION['createPassState'])) {
 		#Verification Failed
@@ -31,6 +34,7 @@ if (isset($_POST['create'])) {
 	} else {
 		$access->createUser($fName, $lName, $email, $username, $password);
 		$_SESSION['username'] = $username;
+		unset($_SESSION['input']);
 		header("Location:index.php");
 		exit;
 	}

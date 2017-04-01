@@ -23,4 +23,10 @@
 	}
 	?>
 			</span>
-	    </div>	
+	    </div>
+<?php if (isset($_SESSION['username'])) {
+	include_once('loggedInNav.html');
+} else {
+	include_once('navigation.html');
+}
+?>

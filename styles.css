@@ -26,9 +26,9 @@ body{
 	font-family: 'titleFont', Times, serif;
 	font-size: 55px;
 }
-a{
-	text-decoration: none;
-	color:black;
+#title a {
+    text-decoration:none;
+    color:black;
 }
 #navigation{
 	clear:both;
@@ -74,7 +74,6 @@ a{
 
 .loginDiv{
 	width:30%;
-	margin-top:200;
 	text-align:center;
 	border: 1px solid black;
 	padding-top: 10px;
@@ -83,9 +82,11 @@ a{
 #oldUser{
 	float:left;
 	padding-right:0px;
+        margin-left: 10%;
 }
 #newUser{
-	float:right;
+    float:right;
+    margin-right:10%;
 }
 label{
 	display:inline-block;
@@ -129,4 +130,12 @@ p{
 .errorMessage {
     color:red;
     font-weight:bold;
+}
+.badBox {
+    border: 2px solid #FF0000;
+    border-radius: 7px;
+}
+.goodBox {
+    border: 2px solid #00FF00;
+    border-radius: 7px;
 }

@@ -47,7 +47,6 @@ class DAO {
 		$newpassword = password_hash($newpassword, PASSWORD_DEFAULT);
 		$q = $conn->prepare('insert into user (fName, lName, username, password, email, access) VALUES (:fName, :lName, :newUsername, :newpassword, :email, 0)');
 		$q->execute(array(':fName' => $fName, ':lName' => $lName, ':newUsername' => $newUsername, ':newpassword' => $newpassword, ':email' => $email));
-		$this->log->LogDebug("fName = " . $fName . "lName = " . $lName . "Username = " . $newUsername . "Password = " . $newpassword . "Email = " . $email);
 		$this->log->LogDebug("Successfully inserted user into table");
 	}
 
@@ -60,32 +59,86 @@ class DAO {
 		unset($_SESSION['message']);
 		if ($returned) {
 		   	$this->log->LogDebug("We received data back so user already exists");
-			$_SESSION['createUnameState'] = 'bad';
+			$_SESSION['createUnameState'] = 'badBox';
 			$_SESSION['message'][0] = "Username already in use";
-			unset($_SESSION['input']['newusername']);
+			unset($_SESSION['input']['username']);
 		}
 		if (!($password === $confirmPass)) {
-		        $this->log->LogDebug("Passwords did not match");
-			$_SESSION['createPassState'] = 'bad';
-			$_SESSION['message'][1] = "Passwords do not match";
+			$this->log->LogDebug("Passwords did not match");
+			$_SESSION['createPassState'] = 'badBox';
+			$_SESSION['message'][3] = "Passwords do not match";
 		}
 		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-		        $this->log->LogDebug("Email is invalid");
-			$_SESSION['createEmailState'] = 'bad';
-			$_SESSION['message'][2] = "Invalid Email";
+			$this->log->LogDebug("Email is invalid");
+			$_SESSION['createEmailState'] = 'badBox';
+			$_SESSION['message'][4] = "Invalid Email";
 			unset($_SESSION['input']['email']);
 		}
 		if (!$returned) {
-		        $this->log->LogDebug("We got no results back, so user doesn't exist");
+			$this->log->LogDebug("We got no results back, so user doesn't exist");
 			unset($_SESSION['createUnameState']);
 		}
+		if (!isset($username) || trim($username) == '') {
+			$this->log->LogDebug("Empty username");
+			$_SESSION['createUnameState'] = 'badBox';
+			$_SESSION['message'][1] = "Username cannot be empty";
+		}
 		if ($password === $confirmPass) {
-		        $this->log->LogDebug("Passwords match confirmed");
+			$this->log->LogDebug("Passwords match confirmed");
 			unset($_SESSION['createPassState']);
 		}
+		if (!isset($password) || trim($password) == '') {
+			$this->log->LogDebug("Empty password");
+			$_SESSION['createPassState'] = 'badBox';
+			$_SESSION['message'][2] = "Password cannot be empty";
+		}
 		if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-		        $this->log->LogDebug("Email confirmed valid");
+			$this->log->LogDebug("Email confirmed valid");
 			unset($_SESSION['createEmailState']);
 		}
-	}	    
+	}
+	public function updateUser($fName, $lName, $email, $pass, $confirmpass) {
+		$conn = $this->getConnection();
+		$this->log->LogDebug("This is a log");
+		$q = $conn->prepare('SELECT * FROM user WHERE username = :user');
+		$q->execute(array(':user' => $_SESSION['username']));
+		$data = $q->fetch();
+		if (strcmp($fName, $data['fName']) != 0) {
+			$fnameChange = $conn->prepare('UPDATE user SET fName = :fName WHERE username = :uname');
+			$fnameChange->execute(array(':fName' => $fName, ':uname' => $_SESSION['username']));
+			$this->log->LogDebug("Name Change");
+		}
+		if (strcmp($lName, $data['lName']) != 0) {
+			$lnameChange = $conn->prepare('UPDATE user SET lName = :lName WHERE username = :uname');
+			$lnameChange->execute(array(':lName' => $lName, ':uname' => $_SESSION['username']));
+			$this->log->LogDebug("Name Change");
+		}
+		do {
+			if (strcmp($email, $data['email']) != 0) {
+					if (!isset($email) || trim($email) == '') {
+						unset($_SESSION['updateEmailState']);
+						unset($_SESSION['message'][1]);
+						break;
+					}
+					if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+						$emailChange = $conn->prepare('UPDATE user SET email = :email WHERE username = :uname');
+						$emailChange->execute(array(':email' => $email, ':uname' => $_SESSION['username']));
+							}
+					if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+						$_SESSION['updateEmailState'] = 'badBox';
+						$_SESSION['message'][1] = "Invalid Email";
+					}
+			}
+		}
+		while (0);
+		if (($pass === $confirmpass)) {
+			$passChange = $conn->prepare('UPDATE user SET password = :pass WHERE username = :uname');
+			$passChange->execute(array(':pass' => password_hash($pass, PASSWORD_DEFAULT), ':uname' => $_SESSION['username']));
+		}
+		if (!($pass === $confirmpass)) {
+			$_SESSION['updatePassState'] = 'badBox';
+			$_SESSION['message'][2] = 'Passwords do not match';
+		}
+	}
+		
 }

@@ -1,6 +1,5 @@
 <?php
-	include_once('header.html');
-	include_once('navigation.html');
+	include_once('header.php');
 ?>
 
 <h1>What is Book-Collectors?</h1>

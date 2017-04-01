@@ -1,6 +1,5 @@
 <?php
-	include_once('header.html');
-	include_once('loggedInNav.html');
+	include_once('header.php');
 ?>
 
 <div id="Content">

@@ -1,6 +1,6 @@
 <?php
-	include_once('header.php');
-	include_once('navigation.html');
+session_start();
+include_once('header.php');
 ?>
 <div id="Content">
     <div id="pop" class="Content">
