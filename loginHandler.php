@@ -3,7 +3,6 @@
 session_start();
 #We come here from login.php
 require_once 'classes/DAO.php';
-echo print_r($_POST);
 $access = new DAO();
 
 
@@ -27,7 +26,7 @@ if (isset($_POST['create'])) {
 	$_SESSION['input']['lName'] = $lName;
 	$_SESSION['input']['email'] = $email;
 	$access->verifynewUserCreds($username, $email, $password, $confirmpass);
-	if (isset($_SESSION['createUnameState']) || isset($_SESSION['createPassState'])) {
+	if (isset($_SESSION['createUnameState']) || isset($_SESSION['createPassState']) || isset($_SESSION['createEmailState'])) {
 		#Verification Failed
 		header("Location:login.php");
 		exit;
