@@ -1,5 +1,5 @@
 <?php
-if (!isset($_POST['q']) {
+if (!isset($_POST['q'])) {
 		header(Location: $_SERVER['HTTP_REFERER']);
 		exit;
 	}
