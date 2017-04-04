@@ -13,7 +13,7 @@
 			<span id="loginSpan">
 	<?php
 	if (isset($_SESSION['username'])) {
-		echo 'Logged in as ' . $_SESSION['username'] . '<a id="signin" href="logout.php"> Sign out</a>';
+		echo 'Logged in as ' . $_SESSION['username'] . ', <a id="signin" href="logout.php">Sign out</a>';
 	} else {
 		echo '<a id="signin" href="login.php">Sign In/Sign Up</a>';
 	}
