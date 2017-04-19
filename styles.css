@@ -134,11 +134,11 @@ p{
 }
 .badBox {
     border: 2px solid #FF0000;
-    border-radius: 7px;
+    border-radius: 2px;
 }
 .goodBox {
     border: 2px solid #00FF00;
-    border-radius: 7px;
+    border-radius: 2px;
 }
 .hidden {
     visibility: hidden;
@@ -165,4 +165,8 @@ a {
 #signin{
     text-decoration:underline;
     color:blue;
+}
+input{
+    border: 1px solid black;
+    border-radius: 2px;
 }

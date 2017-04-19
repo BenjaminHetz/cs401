@@ -4,31 +4,8 @@
 ?>
 
 <div id="Content">
-	<div id="filters">
-	<select name=sort>
-		<option value="" selected>Sort By</option>
-		<option value="Author">Author</option>
-		<option value="Title">Title</option>
-		<option value="Genre">Genre</option>
-		<option value="pubDate">Publish Date</option>
-		<option value="readDate">Read Date</option>
-	</select>
-	<form action="search.php" method="POST">
-			<div id="searchBox">
-				<input type="text" name="q" value="Search">
-		<input type="submit" name="search" value="Submit">
-			</div>
-		</form>
-	</div>
 	<div id="books">
 		<table>
-		<?php
-		$results = $_POST['jsonResults'];
-$maxIndex = 25;
-		$index = 0;
-while($index < $maxIndex && $results->docs[$index] !== null) {
-	if ($index % 0 === 0) {
-		echo '<tr> <td> <a href=http://openlibrary.org/<img src=http://covers.openlibrary.org/b/ISBN/' .$results->docs[$index % 5]->isbn[1] . '-S.jpg>';?>
 			<tr>
 				<td>1</td>
 				<td>2</td>
