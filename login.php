@@ -20,6 +20,12 @@ include_once('header.php');
 				<input type="password" name="password">
 			</div>
 				<input type="submit" value="Submit" name="login">
+	<?php
+	if (isset($_SESSION['loginMessage'])) {
+			echo '<p class="errorMessage">Invalid Login Credentials</p>';
+			unset($_SESSION['loginMessage']);
+		}
+?>
 		</form>
 	</div>
 </div>

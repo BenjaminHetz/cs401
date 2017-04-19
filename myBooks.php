@@ -8,7 +8,7 @@ exit;
 ?>
 
 <div id="Content">
-	<div id="filters">
+	<!--<div id="filters">
 	<select name=sort>
 		<option value="" selected>Sort By</option>
 		<option value="Author">Author</option>
@@ -16,13 +16,13 @@ exit;
 		<option value="Genre">Genre</option>
 		<option value="pubDate">Publish Date</option>
 		<option value="readDate">Read Date</option>
-	</select>
-	<!--<form action="search.php" method="POST">-->
+	</select>-->
+	<!--<form action="search.php" method="POST">
 	<form action="myBooks.php" method="GET">
 			<div id="searchBox">
 				<input type="text" name="q" value="Search">
 			</div>
-		</form>
+		</form>-->
 	</div>
 	<div id="books">
 		<table>

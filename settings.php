@@ -5,21 +5,24 @@ if (!isset($_SESSION['username'])) {
 	exit;
 }
 	include_once('header.php');
+require_once('classes/DAO.php');
+$dao = new DAO();
+$results = $dao->getCredentials($_SESSION['username']);
 ?>
 <div id="settings">
 	<div>
 		<form action="handler.php" method="POST">
 			<div>
 				<label>First Name</label>
-				<input type="text" name="fName"> 
+				<input type="text" name="fName" value=<?php echo '"' . $results[1] . '"'?>> 
 			</div>
 			<div>
 				<label>Last Name</label>
-				<input type="text" name="lName">
+				<input type="text" name="lName" value=<?php echo '"' . $results[2] . '"'?>>
 			</div>
 			<div>
 				<label>Email</label>
-				<input type="text" name="email"
+				<input type="text" name="email" value=<?php echo '"' . $results[5] . '"'?>
 		class=<?php echo '"' . $_SESSION['updateEmailState'] . '"';
 unset($_SESSION['updateEmailState']);?>>
 			</div>
@@ -38,8 +41,8 @@ unset($_SESSION['updateEmailState']);?>>
 		</form>
 		<?php foreach($_SESSION['message'] as $message) {
 			echo "<p class=errorMessage>" . $message . "</p>";
-			unset($message);
-		}?>
+		}
+			unset($_SESSION['message'])?>
 	</div>
 </div>
 <?php

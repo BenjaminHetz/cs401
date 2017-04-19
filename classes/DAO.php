@@ -11,7 +11,24 @@ class DAO {
 	public function __construct () {
 		$this->log = new KLogger ("/var/log/bookcollector.log", KLogger::DEBUG);
 	}
-
+	public function addAuthor($json) {
+		$authorid = substr($json->key, 9);
+		$conn = $this->getConnection();
+		$query = $conn->prepare('insert into author (name, authorid) VALUES (:name, :authorid)');
+		$query->execute(array(':name' => $json->name, ':authorid' => $authorid));
+		$this->log->LogDebug("Inserted author into database");
+	}
+	public function addBook($json) {
+		$coverid = $json->covers[0];
+		$id = substr($json->key, 7);
+		$author = substr($json->authors[0]->author->key, 9);
+		$title = $json->title;
+		
+		$conn = $this->getConnection();
+		$query = $conn->prepare('insert into book (title, author, ID, cover) VALUES (:title, :author, :ID, :cover)');
+		$query->execute(array(':title' => $title, ':author' => $author, ':ID' => $id, ':cover' => $coverid));
+		$this->log->LogDebug("Inserted book into database");
+	}
 	public function getConnection() {
 		$this->log->LogDebug("Attempting MySQL connection . . .");
 	    try {
@@ -23,7 +40,13 @@ class DAO {
 		$this->log->LogDebug("Got connection to MySQL");
 		return $conn;
 	}
-
+	public function getCredentials($username) {
+		$conn = $this->getConnection();
+		$query = $conn->prepare('SELECT * FROM user WHERE username = :username');
+		$query->execute(array(':username' => $username));
+		$data = $query->fetch();
+		return $data;
+	}
 	public function verifyLogin ($username, $password) {
 		$conn = $this->getConnection();
 		$this->log->LogDebug("Verifying login information");
@@ -39,6 +62,9 @@ class DAO {
 			header("Location:index.php");
 			exit();
 		}
+		$_SESSION['loginMessage'] = true;
+		header("Location:login.php");
+		exit();
 	}
 
 	public function createUser ($fName, $lName, $email, $newUsername, $newpassword) {
@@ -114,7 +140,7 @@ class DAO {
 			$this->log->LogDebug("Name Change");
 		}
 		do {
-			if (strcmp($email, $data['email']) != 0) {
+			if (strcmp($email, $data['email']) != 0 && strcmp($email, '' != 0)) {
 					if (!isset($email) || trim($email) == '') {
 						unset($_SESSION['updateEmailState']);
 						unset($_SESSION['message'][1]);
@@ -131,7 +157,7 @@ class DAO {
 			}
 		}
 		while (0);
-		if (($pass === $confirmpass)) {
+		if (($pass === $confirmpass) && $pass != '') {
 			$passChange = $conn->prepare('UPDATE user SET password = :pass WHERE username = :uname');
 			$passChange->execute(array(':pass' => password_hash($pass, PASSWORD_DEFAULT), ':uname' => $_SESSION['username']));
 		}
