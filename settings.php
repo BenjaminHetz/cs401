@@ -37,7 +37,7 @@ unset($_SESSION['updateEmailState']);?>>
 		class=<?php echo '"' . $_SESSION['updatePassState'] . '"';
 		unset($_SESSION['updatePassState']);?>>
 			</div>
-				<input type="submit" value="Submit">
+				<input id="submitButton" type="submit" value="Submit">
 		</form>
 		<?php foreach($_SESSION['message'] as $message) {
 			echo "<p class=errorMessage>" . $message . "</p>";

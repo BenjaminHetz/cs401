@@ -1,15 +1,15 @@
 <html>
 	<head>
-		<title>Book-Collectors</title>
+		<title>Book Collectors</title>
 		<link rel="stylesheet" type="text/css" href="styles.css"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="js/cs401.js" type="text/javascript"></script>
 		<link href="assets/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+	 <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet"> 
 	</head>
 	<body>
 		<div id="header">
-			<span id="logo">
-				<a href="assets/logo.png"><img src="assets/logoSmall.png" id="logoIMG"/></a>
-			</span>
-			<span id="title"><a href="index.php">Book~Collectors</a></span>
+			<span id="title"><a href="index.php">Book Collectors</a></span>
 			<span id="loginSpan">
 	<?php
 	if (isset($_SESSION['username'])) {

@@ -1,19 +1,18 @@
 body{
-	background-color: #fdf6e3;
-}
-@font-face{
-	font-family:'titleFont';
-	src: url(fonts/AguafinaScript-Regular.ttf) format("truetype");
+    /*background-color: #fdf6e3;*/
+    background-image:url("assets/book-quiz2.jpg");
+    background-repeat:repeat-y;
+    background-size:1920px 1080px;
 }
 
 #header{
-	text-align: center;
+	text-align: left;
 	height: 10;
-	margin-top:20px;
+	margin-top:90px;
 }
 #logo{
-	float: left;
-	margin-left:50px;
+    height:40px;
+    margin-left:50%;
 }
 #loginSpan{
 	float: right;
@@ -21,14 +20,14 @@ body{
 	font-size: 18px;
 }
 #title{
-	margin-left:auto;
-	margin-right:auto;
-	font-family: 'titleFont', Times, serif;
-	font-size: 55px;
+    margin-left:9%;
+    /*font-family: 'titleFont', Times, serif;*/
+    font-size: 90px;
 }
 #title a {
     text-decoration:none;
-    color:black;
+    color:#9b1521;
+    /#8B4513;
 }
 #navigation{
 	clear:both;
@@ -36,9 +35,10 @@ body{
 }
 #navigation ul{
 	list-style:none;
-	font-size:30px;
+	font-size:25px;
 	border:1px solid black;
-        background-color:#C08C70;
+        background-color:#999999;
+        padding-left:9.5%
 }
 .navButtons > li{
 	display:inline;
@@ -70,7 +70,8 @@ body{
 	width:50%;
 }
 #Content{
-	min-width: 850px;
+    min-width: 850px;
+    min-height: 400px;
 }
 
 .loginDiv{
@@ -78,12 +79,24 @@ body{
 	text-align:center;
 	border: 1px solid black;
 	padding-top: 10px;
-	background-color: #D2CBB8;
+	background-color: #999999;
+        font-weight:normal;
+}
+.loginDiv form{
+    margin-top:10px;
+}
+#newUser label{
+    width:170px;
+    text-align:left;
 }
 #oldUser{
 	float:left;
 	padding-right:0px;
-        margin-left: 10%;
+        margin-left: 10%;       
+}
+#oldUser label{
+    width: 100px;
+    text-align:left;
 }
 #newUser{
     float:right;
@@ -94,25 +107,28 @@ label{
 	width:100px;
 	padding-bottom:15px;
 }
-form > div:nth-child(1){
-	margin: 5 5 5 5;
+#add{
+    float:left;
 }
-#filters{
-	float:left;
+.addform {
+    color:white;
 }
 #books{
-	margin-left: 30%;
-	margin-right: 10%;
+    margin-left: 20%;
+    border-spacing:10px;
+}
+th{
+    color:white;
 }
 td{
-	height:250px;
-	width:100px;
-	border:1px solid black;
-	margin: 10 10;
+	border:1px solid white;
+	margin: 20 20;
 	text-align:center;
+        color:white;
 }
 tr{
-	margin-bottom:5px;
+    margin-bottom:5px;
+    
 }
 #searchBox{
 	margin-left:0;
@@ -123,10 +139,14 @@ p{
 }
 #settings{
 	width:30%;
-	text-align:center;
+	text-align:left;
 	border: 1px solid black;
 	padding-top: 10px;
-	background-color: #D2CBB8;
+	background-color: #999999;
+        padding-left:9.5%
+}
+#settings label{
+    width:200px;
 }
 .errorMessage {
     color:red;
@@ -152,11 +172,19 @@ a {
     background-color:white;
 }
 #head {
-    margin-left:0%
+    color:black;
 }
-.about{
-    margin-left:40%;
+h1.about{
+    color:black;
+    margin-left:70.5%;
+    font-family: 'Raleway', sans-serif;
+}
+p.about{
+    color:black;
+    margin-left:70%;
+    font-size: 25px;
     text-align:center;
+    font-family: 'Raleway', sans-serif;
 }
 .about a{
     text-decoration:underline;
@@ -169,4 +197,10 @@ a {
 input{
     border: 1px solid black;
     border-radius: 2px;
+}
+#submitButton:hover{
+    background-color:white;
+}
+#submitButton{
+    margin-left:25%;
 }

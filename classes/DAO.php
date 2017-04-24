@@ -11,23 +11,14 @@ class DAO {
 	public function __construct () {
 		$this->log = new KLogger ("/var/log/bookcollector.log", KLogger::DEBUG);
 	}
-	public function addAuthor($json) {
-		$authorid = substr($json->key, 9);
+	public function addBook($input, $username) {
+		$this->log->LogDebug("Adding a book");
 		$conn = $this->getConnection();
-		$query = $conn->prepare('insert into author (name, authorid) VALUES (:name, :authorid)');
-		$query->execute(array(':name' => $json->name, ':authorid' => $authorid));
-		$this->log->LogDebug("Inserted author into database");
-	}
-	public function addBook($json) {
-		$coverid = $json->covers[0];
-		$id = substr($json->key, 7);
-		$author = substr($json->authors[0]->author->key, 9);
-		$title = $json->title;
-		
-		$conn = $this->getConnection();
-		$query = $conn->prepare('insert into book (title, author, ID, cover) VALUES (:title, :author, :ID, :cover)');
-		$query->execute(array(':title' => $title, ':author' => $author, ':ID' => $id, ':cover' => $coverid));
-		$this->log->LogDebug("Inserted book into database");
+		$title = $input['title'];
+		$author = $input['author'];
+		$userid = $this->getCredentials($username)['userid'];
+		$query = $conn->prepare("insert into user_book (title, author, userid) values (:title, :author, :userid)");
+		$query->execute(array(':title' => $title, ':author' => $author, ':userid' => $userid));
 	}
 	public function getConnection() {
 		$this->log->LogDebug("Attempting MySQL connection . . .");
@@ -47,6 +38,13 @@ class DAO {
 		$data = $query->fetch();
 		return $data;
 	}
+	public function getBooks($username) {
+		$conn = $this->getConnection();
+		$credentials = $this->getCredentials($username);
+		$userid = $credentials['userid'];
+		return $conn->query('SELECT * FROM user_book where userid =' . $userid);
+		
+	}
 	public function verifyLogin ($username, $password) {
 		$conn = $this->getConnection();
 		$this->log->LogDebug("Verifying login information");
@@ -54,8 +52,6 @@ class DAO {
 		$query->execute(array(':username' => $username));
 		$data = $query->fetch();
 		$hash = $data['password'];
-		$this->log->LogDebug($hash);
-		$this->log->LogDebug($password);
 		if (password_verify($password, $hash)) {
 		    $this->log->LogDebug("Passwords match");
 			$_SESSION['username'] = $data['username'];
@@ -71,7 +67,7 @@ class DAO {
 		$this->log->LogDebug("Creating User");
 		$conn = $this->getConnection();
 		$newpassword = password_hash($newpassword, PASSWORD_DEFAULT);
-		$q = $conn->prepare('insert into user (fName, lName, username, password, email, access) VALUES (:fName, :lName, :newUsername, :newpassword, :email, 0)');
+		$q = $conn->prepare('insert into user (fName, lName, username, password, email) VALUES (:fName, :lName, :newUsername, :newpassword, :email)');
 		$q->execute(array(':fName' => $fName, ':lName' => $lName, ':newUsername' => $newUsername, ':newpassword' => $newpassword, ':email' => $email));
 		$this->log->LogDebug("Successfully inserted user into table");
 	}
@@ -166,5 +162,5 @@ class DAO {
 			$_SESSION['message'][2] = 'Passwords do not match';
 		}
 	}
-		
+	
 }

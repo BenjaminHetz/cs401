@@ -6,12 +6,6 @@
 		 echo "id=current";
 	 }?>
 		 ><a href="index.php">Home</a></li>
-	 <li
-		 <?php
-			 if ($_SERVER['SCRIPT_NAME'] === '/browse.php') {
-				 echo "id=current";
-			 }?>
-			 ><a href="browse.php">Browse</a></li>
 				 <li
 						 <?php
 				 if (!isset($_SESSION['username'])) {
